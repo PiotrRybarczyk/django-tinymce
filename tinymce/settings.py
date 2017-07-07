@@ -16,9 +16,21 @@ USE_EXTRA_MEDIA = getattr(settings, 'TINYMCE_EXTRA_MEDIA', None)
 USE_FILEBROWSER = getattr(settings, 'TINYMCE_FILEBROWSER',
                           'filebrowser' in settings.INSTALLED_APPS)
 
+PROJECT_ROOT = getattr(
+    settings,
+    'PROJECT_ROOT',
+    os.path.abspath(os.path.join(__file__, '..', '..')),
+)
+
+STATIC_ROOT = getattr(
+    settings,
+    'STATIC_ROOT',
+    os.path.abspath(os.path.join(PROJECT_ROOT, '..', 'static'))
+)
+
 if 'staticfiles' in settings.INSTALLED_APPS or 'django.contrib.staticfiles' in settings.INSTALLED_APPS:
     JS_URL = getattr(settings, 'TINYMCE_JS_URL', os.path.join(settings.STATIC_URL, 'tiny_mce/tiny_mce.js'))
-    JS_ROOT = getattr(settings, 'TINYMCE_JS_ROOT', finders.find('tiny_mce', all=False))
+    JS_ROOT = getattr(settings, 'TINYMCE_JS_ROOT', os.path.join(STATIC_ROOT, 'tiny_mce'))
 else:
     JS_URL = getattr(settings, 'TINYMCE_JS_URL', '{!s}js/tiny_mce/tiny_mce.js'.format(settings.MEDIA_URL))
     JS_ROOT = getattr(settings, 'TINYMCE_JS_ROOT', os.path.join(settings.MEDIA_ROOT, 'js/tiny_mce'))
